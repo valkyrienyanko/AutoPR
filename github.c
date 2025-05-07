@@ -3,20 +3,30 @@
 
 #include "github.h"
 
-#define COMMAND_SIZE 256
-
 /// @brief Checks out a branch on GitHub.
 /// @return True if the branch was checked out successfully.
 bool checkout_branch(char* branch_name)
 {
-    char cmd[COMMAND_SIZE];
+    char cmd[128];
     snprintf(cmd, sizeof(cmd), "git checkout -b %s", branch_name);
     return system(cmd) == 0;
 }
 
+/// @brief Publishes the branch to GitHub.
+/// @return True if the branch was published successfully.
 bool push_branch(char* branch_name)
 {
-    char cmd[COMMAND_SIZE];
+    char cmd[256];
     snprintf(cmd, sizeof(cmd), "git push --set-upstream origin %s", branch_name);
+    return system(cmd) == 0;
+}
+
+/// @brief Creates a pull request for branch.
+/// @return True if the pull request was created successfully.
+bool create_pr(char* branch_name, char* pr_title, char* pr_desc)
+{
+    char cmd[1024];
+    char* format = "gh pr create --base main --head %s --title \"%s\" --body \"%s\"";
+    snprintf(cmd, sizeof(cmd), format, branch_name, pr_title, pr_desc);
     return system(cmd) == 0;
 }

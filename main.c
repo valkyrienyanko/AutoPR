@@ -21,19 +21,21 @@ void automate_pr()
     char branch_name[128];
     read_line(branch_name, sizeof(branch_name));
     
-    bool checked_branch = checkout_branch(branch_name);
-    
-    if (!checked_branch)
+    if (!checkout_branch(branch_name))
     {
         print_error("Failed to create branch");
         return;
     }
     
-    bool pushed_branch = push_branch(branch_name);
-    
-    if (!pushed_branch)
+    if (!push_branch(branch_name))
     {
         print_error("Failed to push branch");
+        return;
+    }
+    
+    if (!create_pr(branch_name, pr_title, pr_description))
+    {
+        print_error("Failed to create pull request");
         return;
     }
 }
