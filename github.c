@@ -26,7 +26,6 @@ bool push_branch(char* branch_name)
 bool create_pr(char* branch_name, char* pr_title, char* pr_desc)
 {
     char cmd[1024];
-    char* format = "gh pr create --base main --head %s --title \"%s\" --body \"%s\"";
-    snprintf(cmd, sizeof(cmd), format, branch_name, pr_title, pr_desc);
+    snprintf(cmd, sizeof(cmd), "gh pr create --base main --head %s --title \"%s\" --body \"%s\"", branch_name, pr_title, pr_desc);
     return system(cmd) == 0;
 }
