@@ -29,7 +29,7 @@ void automate_pr()
         return;
     }
     
-    bool pushed_branch = push_branch();
+    bool pushed_branch = push_branch(branch_name);
     
     if (!pushed_branch)
     {
