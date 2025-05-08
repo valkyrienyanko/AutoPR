@@ -7,6 +7,8 @@
 #include "options.h"
 #include "utils.h"
 
+#define BRANCH_NAME "__new_feature" // surely no one will call their branches this
+
 /// @brief Create a new branch and switch to it.
 /// @return True if the branch was checked out successfully.
 bool create_new_branch(char* branch_name)
@@ -109,15 +111,11 @@ void create_and_merge_pr()
     printf("PR Description: ");
     char pr_description[512];
     read_line(pr_description, sizeof(pr_description));
-
-    printf("Branch Name: ");
-    char branch_name[128];
-    read_line(branch_name, sizeof(branch_name));
     
     // Checkout branch
-    printf("\nChecking out branch '%s'...\n", branch_name);
+    printf("\nChecking out branch '%s'...\n", BRANCH_NAME);
 
-    if (!create_new_branch(branch_name))
+    if (!create_new_branch(BRANCH_NAME))
     {
         print_error("Failed to create branch");
         return;
@@ -126,7 +124,7 @@ void create_and_merge_pr()
     // Publish branch
     printf("\nPublishing branch...\n");
 
-    if (!push_branch(branch_name))
+    if (!push_branch(BRANCH_NAME))
     {
         print_error("Failed to push branch");
         return;
@@ -135,7 +133,7 @@ void create_and_merge_pr()
     // Create pull request
     printf("\nCreating pull request...\n");
 
-    if (!create_pr(branch_name, pr_title, pr_description))
+    if (!create_pr(BRANCH_NAME, pr_title, pr_description))
     {
         print_error("Failed to create pull request");
         return;
@@ -162,7 +160,7 @@ void create_and_merge_pr()
     // Delete branch
     printf("\nDeleting branch...\n");
     
-    if (!delete_branch(branch_name))
+    if (!delete_branch(BRANCH_NAME))
     {
         print_error("Failed to delete local or remote branch");
         return;
