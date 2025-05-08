@@ -97,7 +97,7 @@ bool hard_reset()
     return system("git reset --hard origin/main") == 0;
 }
 
-/// @brief Gets the latest commit message. (not null terminated)
+/// @brief Gets the latest commit message.
 void latest_commit_message(char* message, int message_size)
 {
     const char* cmd = "git log -1 --pretty=%B";
@@ -115,10 +115,9 @@ void latest_commit_message(char* message, int message_size)
     
     if (!line)
     {
-        strncpy(message, COMMIT_FALLBACK_NAME, (size_t)(message_size));
+        strncpy(message, COMMIT_FALLBACK_NAME, (size_t)message_size);
     }
     
-    printf("Index = %lld\n", strlen(line) - 1);
     line[strlen(line) - 1] = '\0';
     
     pclose(fp);
