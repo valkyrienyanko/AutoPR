@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -39,4 +40,49 @@ void clear_buffer()
 {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
+}
+
+/// @brief For example " hello " becomes "hello"
+void trim(char* str)
+{
+    int start = 0;
+    int end = (int)(strlen(str) - 1);
+    
+    // Remove leading whitespace
+    while (isspace(str[start]) && start <= end) 
+    {
+        start++;
+    }
+
+    // Remove trailing whitespace
+    while (isspace(str[end]) && end >= start) 
+    {
+        end--;
+    }
+
+    // Shift the string to the beginning
+    int i = 0;
+    
+    while (start <= end) 
+    {
+        str[i++] = str[start++];
+    }
+    
+    str[i] = '\0';
+}
+
+/// @brief For example " Foo Bar" becomes "foo_bar"
+void convert_to_camel_case(char* str)
+{
+    trim(str);
+
+    for (size_t i = 0; i < strlen(str); i++)
+    {
+        str[i] = (char)tolower(str[i]);
+    
+        if (isblank(str[i]))
+        {
+            str[i] = '_';
+        }
+    }
 }
