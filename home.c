@@ -14,29 +14,30 @@ void set_merge_type()
     printf("(1) Merge - Creates a new merge commit\n");
     printf("(2) Rebase - Reapplies commits linearly\n");
     printf("(3) Squash - Combines all commits into one commit\n");
-    printf("(4) Go Back\n");
+    printf("(x) Go Back\n");
     
-    int choice = 0;
+    char choice;
     
     while (true)
     {
-        scan_num_consume(&choice);
+        choice = (char)getchar();
+        clear_buffer();
         
         switch (choice)
         {
-            case 1:
+            case '1':
                 save_option(CONFIG_MERGE_TYPE, "merge");
                 options();
                 return;
-            case 2:
+            case '2':
                 save_option(CONFIG_MERGE_TYPE, "rebase");
                 options();
                 return;
-            case 3:
+            case '3':
                 save_option(CONFIG_MERGE_TYPE, "squash");
                 options();
                 return;
-            case 4:
+            case 'x':
                 options();
                 return;
             default:
@@ -57,20 +58,21 @@ void options()
     printf("---------- Options ----------\n"); 
     printf("(1) Merge Type (%s)\n", merge_type);
     printf("(2) PR Description Prompt (%s)\n", description_prompt);
-    printf("(3) Go Back\n");
+    printf("(x) Go Back\n");
     
-    int choice = 0;
+    char choice;
     
     while (true)
     {
-        scan_num_consume(&choice);
+        choice = (char)getchar();
+        clear_buffer();
         
         switch (choice)
         {
-            case 1:
+            case '1':
                 set_merge_type();
                 return;
-            case 2:
+            case '2':
                 if (strcmp(description_prompt, "yes") == 0)
                     save_option(CONFIG_DESC_PROMPT, "no");
                 else 
@@ -78,7 +80,7 @@ void options()
                 
                 options();
                 return;
-            case 3:
+            case 'x':
                 home();
                 return;
             default:
@@ -92,23 +94,24 @@ void home()
     printf("---------- GitHub Pull Request Automator ----------\n");
     printf("(1) Create and Merge Pull Request\n");
     printf("(2) Configure Options\n");
-    printf("(3) Exit Program\n");
+    printf("(x) Exit Program\n");
 
-    int choice = 0;
+    char choice;
     
     while (true)
     {
-        scan_num_consume(&choice);
+        choice = (char)getchar();
+        clear_buffer();
         
         switch (choice)
         {
-            case 1:
+            case '1':
                 create_and_merge_pr();
                 return;
-            case 2:
+            case '2':
                 options();
                 return;
-            case 3:
+            case 'x':
                 return;
             default:
                 printf("Enter a valid choice.\n");

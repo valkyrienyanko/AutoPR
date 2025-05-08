@@ -10,8 +10,8 @@ With the default config values, this is what this tool is automating for you.
 git checkout -b __new_feature
 git push --set-upstream origin __new_feature
 
-gh pr create --base main --head __new_feature --title \"title\" --body \"desc\"
-gh pr merge --merge_type
+gh pr create --base main --head __new_feature --title \"TITLE\" --body \"DESCRIPTION\"
+gh pr merge --MERGE_TYPE
 
 git checkout main
 git branch -d __new_feature
