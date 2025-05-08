@@ -25,15 +25,15 @@ void set_merge_type()
         switch (choice)
         {
             case 1:
-                save_option(MERGE_TYPE_KEY, "merge");
+                save_option(CONFIG_MERGE_TYPE, "merge");
                 options();
                 return;
             case 2:
-                save_option(MERGE_TYPE_KEY, "rebase");
+                save_option(CONFIG_MERGE_TYPE, "rebase");
                 options();
                 return;
             case 3:
-                save_option(MERGE_TYPE_KEY, "squash");
+                save_option(CONFIG_MERGE_TYPE, "squash");
                 options();
                 return;
             case 4:
@@ -49,10 +49,10 @@ void set_merge_type()
 void options()
 {
     char merge_type[10];
-    load_option(MERGE_TYPE_KEY, merge_type, sizeof(merge_type));
+    load_option(CONFIG_MERGE_TYPE, merge_type, sizeof(merge_type));
     
     char description_prompt[4];
-    load_option(DESCRIPTION_PROMPT_KEY, description_prompt, sizeof(description_prompt));
+    load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
 
     printf("---------- Options ----------\n"); 
     printf("(1) Merge Type (%s)\n", merge_type);
@@ -72,9 +72,9 @@ void options()
                 return;
             case 2:
                 if (strcmp(description_prompt, "yes") == 0)
-                    save_option(DESCRIPTION_PROMPT_KEY, "no");
+                    save_option(CONFIG_DESC_PROMPT, "no");
                 else 
-                    save_option(DESCRIPTION_PROMPT_KEY, "yes");
+                    save_option(CONFIG_DESC_PROMPT, "yes");
                 
                 options();
                 return;

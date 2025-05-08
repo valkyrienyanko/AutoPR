@@ -75,12 +75,7 @@ bool create_pr(char* branch_name, char* pr_title, char* pr_desc)
 bool merge_pr()
 {
     char merge_type[10];
-    
-    if (!load_option(MERGE_TYPE_KEY, merge_type, sizeof(merge_type)))
-    {
-        // Fall back to default
-        snprintf(merge_type, sizeof(merge_type), "%s", MERGE_TYPE_VALUE_DEFAULT);
-    }
+    load_option(CONFIG_MERGE_TYPE, merge_type, sizeof(merge_type));
     
     char cmd[32];
     snprintf(cmd, sizeof(cmd), "gh pr merge --%s", merge_type);
@@ -111,7 +106,7 @@ void create_and_merge_pr()
     read_line(pr_title, sizeof(pr_title));
     
     char description_prompt[4];
-    load_option(DESCRIPTION_PROMPT_KEY, description_prompt, sizeof(description_prompt));
+    load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
     
     if (strcmp(description_prompt, "yes") == 0)
     {
