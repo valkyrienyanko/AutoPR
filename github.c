@@ -40,8 +40,15 @@ bool create_pr(char* branch_name, char* pr_title, char* pr_desc)
 }
 
 /// @brief Squashes and merges the active pull request
-/// @return 
+/// @return True if the merge was successful.
 bool merge_pr()
 {
     return system("gh pr merge --squash") == 0;
+}
+
+/// @brief Pull the latest changes from main
+/// @return True if the pull was successful.
+bool pull_changes()
+{
+    return system("git pull origin main") == 0;
 }

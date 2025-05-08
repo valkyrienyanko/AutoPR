@@ -8,8 +8,7 @@
 /// @brief Create and merge a GitHub pull request.
 void create_and_merge_pr()
 {
-    printf("Setup new Pull Request\n");
-    printf("\n");
+    printf("Setup new Pull Request\n\n");
 
     // Inputs
     printf("PR Title: ");
@@ -25,54 +24,60 @@ void create_and_merge_pr()
     read_line(branch_name, sizeof(branch_name));
     
     // Checkout branch
-    printf("\n");
-    printf("Checking out branch '%s'...\n", branch_name);
+    printf("\nChecking out branch '%s'...\n", branch_name);
 
     if (!create_new_branch(branch_name))
     {
         print_error("Failed to create branch");
         return;
     }
-    
+
     // Publish branch
-    printf("\n");
-    printf("Publishing branch...\n");
-    
+    printf("\nPublishing branch...\n");
+
     if (!push_branch(branch_name))
     {
         print_error("Failed to push branch");
         return;
     }
-    
+
     // Create pull request
-    printf("\n");
-    printf("Creating pull request...\n");
-    
+    printf("\nCreating pull request...\n");
+
     if (!create_pr(branch_name, pr_title, pr_description))
     {
         print_error("Failed to create pull request");
         return;
     }
-    
+
     // Merge pull request
-    printf("\n");
-    printf("Merging pull request...\n");
-    
+    printf("\nMerging pull request...\n");
+
     if (!merge_pr())
     {
         print_error("Failed to merge pull request");
         return;
     }
-    
+
     // Switch back to main
+    printf("\nSwitching back to main...\n");
+    
     if (!switch_to_branch("main"))
     {
         print_error("Failed to switch back to main");
         return;
     }
     
-    printf("\n");
-    printf("Successfully created and merged pull request '%s'\n", pr_title);
+    // Pull latest changes from main
+    printf("\nPulling latest changes from main...\n");
+    
+    if (!pull_changes())
+    {
+        print_error("Failed to pull latest changes from main");
+        return;
+    }
+
+    printf("\nSuccessfully created and merged pull request '%s'\n", pr_title);
 }
 
 int main()
