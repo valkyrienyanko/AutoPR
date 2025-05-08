@@ -29,7 +29,7 @@ If you have any questions you can contact me over Discord, my username is valky5
 - https://cli.github.com/
 
 ## How to Use
-1. Compile and build the executable
+1. Download the [latest release](https://github.com/valkyrienyanko/AutoPR/releases/latest)
 2. Run the exe from anywhere on your pc
 3. Navigate to options and set your repository path
 4. Manually create some commits (but do not push)
