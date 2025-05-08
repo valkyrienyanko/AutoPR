@@ -51,7 +51,7 @@ void options()
     char merge_type[10];
     load_option(MERGE_TYPE_KEY, merge_type, sizeof(merge_type));
 
-    printf("---------- Options ----------\n");
+    printf("---------- Options ----------\n"); 
     printf("(1) Merge Type (%s)\n", merge_type);
     printf("(2) Go Back\n");
     
