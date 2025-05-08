@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "github.h"
+#include "utils.h"
+#include "options.h"
 
 /// @brief Create a new branch and switch to it.
 /// @return True if the branch was checked out successfully.
@@ -43,7 +46,17 @@ bool create_pr(char* branch_name, char* pr_title, char* pr_desc)
 /// @return True if the merge was successful.
 bool merge_pr()
 {
-    return system("gh pr merge --squash") == 0;
+    char merge_type[10];
+    
+    if (!load_option(MERGE_TYPE_KEY, merge_type, sizeof(merge_type)))
+    {
+        // Fall back to default
+        snprintf(merge_type, sizeof(merge_type), "%s", MERGE_TYPE_VALUE_DEFAULT);
+    }
+    
+    char cmd[32];
+    snprintf(cmd, sizeof(cmd), "gh pr merge --%s", merge_type);
+    return system(cmd) == 0;
 }
 
 /// @brief Fetches the latest changes from main.
@@ -58,4 +71,86 @@ bool fetch()
 bool rebase()
 {
     return system("git -c advice.skippedCherryPicks=false rebase origin/main") == 0;
+}
+
+/// @brief Create and merge a GitHub pull request.
+void create_and_merge_pr()
+{
+    // Inputs
+    printf("PR Title: ");
+    char pr_title[128];
+    read_line(pr_title, sizeof(pr_title));
+
+    printf("PR Description: ");
+    char pr_description[512];
+    read_line(pr_description, sizeof(pr_description));
+
+    printf("Branch Name: ");
+    char branch_name[128];
+    read_line(branch_name, sizeof(branch_name));
+    
+    // Checkout branch
+    printf("\nChecking out branch '%s'...\n", branch_name);
+
+    if (!create_new_branch(branch_name))
+    {
+        print_error("Failed to create branch");
+        return;
+    }
+
+    // Publish branch
+    printf("\nPublishing branch...\n");
+
+    if (!push_branch(branch_name))
+    {
+        print_error("Failed to push branch");
+        return;
+    }
+
+    // Create pull request
+    printf("\nCreating pull request...\n");
+
+    if (!create_pr(branch_name, pr_title, pr_description))
+    {
+        print_error("Failed to create pull request");
+        return;
+    }
+
+    // Merge pull request
+    printf("\nMerging pull request...\n");
+
+    if (!merge_pr())
+    {
+        print_error("Failed to merge pull request");
+        return;
+    }
+
+    // Switch back to main
+    printf("\nSwitching back to main...\n");
+    
+    if (!switch_to_branch("main"))
+    {
+        print_error("Failed to switch back to main");
+        return;
+    }
+    
+    // Fetch latest changes from main
+    printf("\nFetching the latest changes from main...\n");
+    
+    if (!fetch())
+    {
+        print_error("Failed to fetch the latest changes from main");
+        return;
+    }
+    
+    // Rebase to main
+    printf("\nRebasing local commits to commits on main\n");
+    
+    if (!rebase())
+    {
+        print_error("Failed to rebase local commits to commits on main");
+        return;
+    }
+
+    printf("\nSuccessfully created and merged pull request '%s'\n", pr_title);
 }
