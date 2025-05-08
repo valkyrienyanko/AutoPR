@@ -37,5 +37,5 @@ git reset --hard origin/main
 - [x] Set merge type
 - [x] Disable title prompt
 - [x] Disable description prompt
-- [ ] Do not delete feature branch
-- [ ] Do not merge pull request
+- [x] Disable delete feature branch
+- [x] Disable merge pull request

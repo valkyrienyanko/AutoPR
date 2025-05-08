@@ -9,14 +9,19 @@
 void options()
 {
     char merge_type[10];
-    char title_prompt[64];
-    char description_prompt[4];
     char merge_type_display[128];
     char merge_type_desc[64];
+    
+    char title_prompt[4];
+    char description_prompt[4];
+    char delete_feature_branch[4];
+    char merge_pull_request[4];
     
     load_option(CONFIG_MERGE_TYPE, merge_type, sizeof(merge_type));
     load_option(CONFIG_TITLE_PROMPT, title_prompt, sizeof(title_prompt));
     load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
+    load_option(CONFIG_DELETE_FEATURE_BRANCH, delete_feature_branch, sizeof(delete_feature_branch));
+    load_option(CONFIG_MERGE_PULL_REQUEST, merge_pull_request, sizeof(merge_pull_request));
     
     if (strcmp(merge_type, "merge") == 0)
     {
@@ -37,6 +42,8 @@ void options()
     printf("%s\n", merge_type_display);
     printf("(2) PR Prompt Title (%s)\n", title_prompt);
     printf("(3) PR Prompt Description (%s)\n", description_prompt);
+    printf("(4) Delete Feature Branch (%s)\n", delete_feature_branch);
+    printf("(5) Merge Pull Request (%s)\n", merge_pull_request);
     printf("(x) Go Back\n");
     
     char choice;
@@ -49,17 +56,23 @@ void options()
         switch (choice)
         {
             case '1':
-                if (strcmp(merge_type, "merge") == 0)
+                if (strcmp(CONFIG_MERGE_TYPE, "merge") == 0)
+                {
                     save_option(CONFIG_MERGE_TYPE, "rebase");
-                else if (strcmp(merge_type, "rebase") == 0)
+                }
+                else if (strcmp(CONFIG_MERGE_TYPE, "rebase") == 0)
+                {
                     save_option(CONFIG_MERGE_TYPE, "squash");
-                else if (strcmp(merge_type, "squash") == 0)
+                }
+                else if (strcmp(CONFIG_MERGE_TYPE, "squash") == 0)
+                {
                     save_option(CONFIG_MERGE_TYPE, "merge");
+                }
                     
                 options();
                 return;
             case '2':
-                if (strcmp(title_prompt, "yes") == 0)
+                if (strcmp(CONFIG_TITLE_PROMPT, "yes") == 0)
                     save_option(CONFIG_TITLE_PROMPT, "no");
                 else
                     save_option(CONFIG_TITLE_PROMPT, "yes");
@@ -67,10 +80,26 @@ void options()
                 options();
                 return;
             case '3':
-                if (strcmp(description_prompt, "yes") == 0)
+                if (strcmp(CONFIG_DESC_PROMPT, "yes") == 0)
                     save_option(CONFIG_DESC_PROMPT, "no");
                 else 
                     save_option(CONFIG_DESC_PROMPT, "yes");
+                
+                options();
+                return;
+            case '4':
+                if (strcmp(CONFIG_DELETE_FEATURE_BRANCH, "yes") == 0)
+                    save_option(CONFIG_DELETE_FEATURE_BRANCH, "no");
+                else 
+                    save_option(CONFIG_DELETE_FEATURE_BRANCH, "yes");
+                
+                options();
+                return;
+            case '5':
+                if (strcmp(CONFIG_MERGE_PULL_REQUEST, "yes") == 0)
+                    save_option(CONFIG_MERGE_PULL_REQUEST, "no");
+                else 
+                    save_option(CONFIG_MERGE_PULL_REQUEST, "yes");
                 
                 options();
                 return;
