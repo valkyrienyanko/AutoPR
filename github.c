@@ -15,13 +15,28 @@ bool create_new_branch(char* branch_name)
     return system(cmd) == 0;
 }
 
-/// @brief Delete a branch locally
+/// @brief Delete a branch locally and remotely
 /// @return True if the branch was deleted successfully
 bool delete_branch(char* branch_name)
 {
     char cmd[128];
+    int result;
+    
+    // Delete local branch
     snprintf(cmd, sizeof(cmd), "git branch -d %s", branch_name);
-    return system(cmd) == 0;
+    result = system(cmd);
+    
+    if (result != 0)
+        return false;
+        
+    // Delete remote branch
+    snprintf(cmd, sizeof(cmd), "git push origin --delete %s", branch_name);
+    result = system(cmd);
+    
+    if (result != 0)
+        return false;
+    
+    return true;
 }
 
 /// @brief Switch to a branch.
@@ -148,7 +163,7 @@ void create_and_merge_pr()
     
     if (!delete_branch(branch_name))
     {
-        print_error("Failed to delete branch");
+        print_error("Failed to delete local or remote branch");
         return;
     }
     
