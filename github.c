@@ -66,11 +66,11 @@ bool fetch()
     return system("git fetch origin") == 0;
 }
 
-/// @brief Rebases the local commits to match the commits on main.
+/// @brief Hard resets the local main branch.
 /// @return True if the rebase was successful.
-bool rebase()
+bool hard_reset()
 {
-    return system("git -c advice.skippedCherryPicks=false rebase origin/main") == 0;
+    return system("git reset --hard origin/main") == 0;
 }
 
 /// @brief Create and merge a GitHub pull request.
@@ -143,12 +143,12 @@ void create_and_merge_pr()
         return;
     }
     
-    // Rebase to main
-    printf("\nRebasing local commits to commits on main\n");
+    // Hard reset local main
+    printf("\nHard resetting local main...\n");
     
-    if (!rebase())
+    if (!hard_reset())
     {
-        print_error("Failed to rebase local commits to commits on main");
+        print_error("Failed to hard reset local main");
         return;
     }
 
