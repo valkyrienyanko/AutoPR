@@ -6,47 +6,6 @@
 #include "options.h"
 #include "utils.h"
 
-void options();
-
-void set_merge_type()
-{
-    printf("---------- Set Merge Type ----------\n");
-    printf("(1) Merge - Creates a new merge commit\n");
-    printf("(2) Rebase - Reapplies commits linearly\n");
-    printf("(3) Squash - Combines all commits into one commit\n");
-    printf("(x) Go Back\n");
-    
-    char choice;
-    
-    while (true)
-    {
-        choice = (char)getchar();
-        clear_buffer();
-        
-        switch (choice)
-        {
-            case '1':
-                save_option(CONFIG_MERGE_TYPE, "merge");
-                options();
-                return;
-            case '2':
-                save_option(CONFIG_MERGE_TYPE, "rebase");
-                options();
-                return;
-            case '3':
-                save_option(CONFIG_MERGE_TYPE, "squash");
-                options();
-                return;
-            case 'x':
-                options();
-                return;
-            default:
-                printf("Enter a valid choice.\n");
-        }
-    }
-}
-
-
 void options()
 {
     char merge_type[10];
@@ -54,9 +13,27 @@ void options()
     
     char description_prompt[4];
     load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
+    
+    char merge_type_display[128];
+    char merge_type_desc[64];
+    
+    if (strcmp(merge_type, "merge") == 0)
+    {
+        strncpy(merge_type_desc, "Creates a new merge commit", sizeof(merge_type_desc));
+    }
+    else if (strcmp(merge_type, "rebase") == 0)
+    {
+        strncpy(merge_type_desc, "Reapplies commits linearly", sizeof(merge_type_desc));
+    }
+    else if (strcmp(merge_type, "squash") == 0)
+    {
+        strncpy(merge_type_desc, "Combines all commits into one commit", sizeof(merge_type_desc));
+    }
+    
+    snprintf(merge_type_display, sizeof(merge_type_display), "(1) Merge Type (%s) (%s)", merge_type, merge_type_desc);
 
     printf("---------- Options ----------\n"); 
-    printf("(1) Merge Type (%s)\n", merge_type);
+    printf("%s\n", merge_type_display);
     printf("(2) PR Description Prompt (%s)\n", description_prompt);
     printf("(x) Go Back\n");
     
@@ -70,7 +47,14 @@ void options()
         switch (choice)
         {
             case '1':
-                set_merge_type();
+                if (strcmp(merge_type, "merge") == 0)
+                    save_option(CONFIG_MERGE_TYPE, "rebase");
+                else if (strcmp(merge_type, "rebase") == 0)
+                    save_option(CONFIG_MERGE_TYPE, "squash");
+                else if (strcmp(merge_type, "squash") == 0)
+                    save_option(CONFIG_MERGE_TYPE, "merge");
+                    
+                options();
                 return;
             case '2':
                 if (strcmp(description_prompt, "yes") == 0)
