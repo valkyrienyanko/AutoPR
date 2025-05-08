@@ -24,6 +24,7 @@ void init_default_options()
     default_options = create_dict();
     default_options->key_compare = compare_key;
     dict_set(default_options, CONFIG_MERGE_TYPE, CONFIG_MERGE_TYPE_DEFAULT);
+    dict_set(default_options, CONFIG_TITLE_PROMPT, CONFIG_TITLE_PROMPT_DEFAULT);
     dict_set(default_options, CONFIG_DESC_PROMPT, CONFIG_DESC_PROMPT_DEFAULT);
 }
 

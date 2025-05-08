@@ -9,13 +9,14 @@
 void options()
 {
     char merge_type[10];
-    load_option(CONFIG_MERGE_TYPE, merge_type, sizeof(merge_type));
-    
+    char title_prompt[64];
     char description_prompt[4];
-    load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
-    
     char merge_type_display[128];
     char merge_type_desc[64];
+    
+    load_option(CONFIG_MERGE_TYPE, merge_type, sizeof(merge_type));
+    load_option(CONFIG_TITLE_PROMPT, title_prompt, sizeof(title_prompt));
+    load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
     
     if (strcmp(merge_type, "merge") == 0)
     {
@@ -34,7 +35,8 @@ void options()
 
     printf("---------- Options ----------\n"); 
     printf("%s\n", merge_type_display);
-    printf("(2) PR Description Prompt (%s)\n", description_prompt);
+    printf("(2) PR Prompt Title (%s)\n", title_prompt);
+    printf("(3) PR Prompt Description (%s)\n", description_prompt);
     printf("(x) Go Back\n");
     
     char choice;
@@ -57,6 +59,14 @@ void options()
                 options();
                 return;
             case '2':
+                if (strcmp(title_prompt, "yes") == 0)
+                    save_option(CONFIG_TITLE_PROMPT, "no");
+                else
+                    save_option(CONFIG_TITLE_PROMPT, "yes");
+                    
+                options();
+                return;
+            case '3':
                 if (strcmp(description_prompt, "yes") == 0)
                     save_option(CONFIG_DESC_PROMPT, "no");
                 else 
