@@ -1,10 +1,28 @@
 # AutoPR
 
 ## What is this?
-A tool that automates GitHub pull requests. If you have any questions you can contact me over Discord, my username is valky5.
+A tool that automates GitHub pull requests. For GitHub repo owners who are tired of manually setting up pull requests.
+
+If you have any questions you can contact me over Discord, my username is valky5.
+
+With the default config values, this is what this tool is automating for you.
+```
+git checkout -b __new_feature
+git push --set-upstream origin __new_feature
+
+gh pr create --base main --head __new_feature --title \"title\" --body \"desc\"
+gh pr merge --merge_type
+
+git checkout main
+git branch -d __new_feature
+git push origin --delete __new_feature
+
+git fetch origin
+git reset --hard origin/main
+```
 
 ## Requirements
-- Windows 64 Bit (may not work on other OS's)
+- Windows 64 Bit (currently not supported for Mac or Linux)
 - https://git-scm.com/
 - https://cli.github.com/
 
@@ -15,13 +33,14 @@ A tool that automates GitHub pull requests. If you have any questions you can co
 4. Manually create some commits (but do not push)
 5. Use the exe to create and merge a pull request for those commits
 
-## Known Issues
-- `load_option` cannot find key if it does not exist in config. Key does not exist in config because default config is only generated if config file does not exist. The solution is to write a default key to the config if `load_option` fails to find the key. See the TODO comment in `load_option` for where this should be implemented.
+## Options
+- [x] Set merge type
+- [x] Disable PR description prompt
+- [ ] Set PR title to latest commit message (will disable title prompt)
+- [ ] Do not delete feature branch
+- [ ] Do not merge pull request
 
 ## Todo
-- Create default option if `load_option` cannot find the option in the config. This will require creating a new Dictionary type so we can easily store and look up the default_options.
-- Add option to auto create PR title based on the message in the latest commit
 - Change "(3) Go Back" navigation prompts to "(x) Go Back" (so user knows it will always be 'x' to go back)
 - Change "Merge Type (squash)" option to be like the "PR Description Prompt (yes)" so it will cycle between the 3 choices (merge, rebase, squash)
 - Optimize and review `options.c` code (it works but it is a mess)
-- Add option to prevent deletion of branches (and if this is the case prompt the user to name their branches)
