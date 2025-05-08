@@ -3,8 +3,6 @@
 ## What is this?
 A tool that automates GitHub pull requests. For GitHub repo owners who are tired of manually setting up pull requests.
 
-If you have any questions you can contact me over Discord, my username is valky5.
-
 With the default config values, this is what this tool is automating for you.
 ```
 git checkout -b __new_feature
@@ -20,6 +18,8 @@ git push origin --delete __new_feature
 git fetch origin
 git reset --hard origin/main
 ```
+
+If you have any questions you can contact me over Discord, my username is valky5.
 
 ## Requirements
 - Windows 64 Bit (currently not supported for Mac or Linux)
