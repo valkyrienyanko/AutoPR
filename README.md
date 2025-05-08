@@ -35,10 +35,7 @@ git reset --hard origin/main
 
 ## Options
 - [x] Set merge type
-- [x] Disable PR description prompt
-- [ ] Set PR title to latest commit message (will disable title prompt)
+- [x] Disable title prompt
+- [x] Disable description prompt
 - [ ] Do not delete feature branch
 - [ ] Do not merge pull request
-
-## Todo
-- Optimize and review `options.c` code (it works but it is a mess)
