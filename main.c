@@ -24,6 +24,7 @@ void create_and_merge_pr()
     char branch_name[128];
     read_line(branch_name, sizeof(branch_name));
     
+    // Checkout branch
     printf("\n");
     printf("Checking out branch '%s'...\n", branch_name);
 
@@ -33,6 +34,7 @@ void create_and_merge_pr()
         return;
     }
     
+    // Publish branch
     printf("\n");
     printf("Publishing branch...\n");
     
@@ -42,6 +44,7 @@ void create_and_merge_pr()
         return;
     }
     
+    // Create pull request
     printf("\n");
     printf("Creating pull request...\n");
     
@@ -51,6 +54,7 @@ void create_and_merge_pr()
         return;
     }
     
+    // Merge pull request
     printf("\n");
     printf("Merging pull request...\n");
     
