@@ -57,5 +57,5 @@ bool fetch()
 /// @return True if the rebase was successful.
 bool rebase()
 {
-    return system("git rebase origin/main") == 0;
+    return system("git -c advice.skippedCherryPicks=false rebase origin/main") == 0;
 }
