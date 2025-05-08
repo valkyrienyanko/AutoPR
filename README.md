@@ -41,6 +41,5 @@ git reset --hard origin/main
 - [ ] Do not merge pull request
 
 ## Todo
-- Change "(3) Go Back" navigation prompts to "(x) Go Back" (so user knows it will always be 'x' to go back)
 - Change "Merge Type (squash)" option to be like the "PR Description Prompt (yes)" so it will cycle between the 3 choices (merge, rebase, squash)
 - Optimize and review `options.c` code (it works but it is a mess)
