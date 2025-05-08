@@ -56,15 +56,15 @@ void options()
         switch (choice)
         {
             case '1':
-                if (strcmp(CONFIG_MERGE_TYPE, "merge") == 0)
+                if (strcmp(merge_type, "merge") == 0)
                 {
                     save_option(CONFIG_MERGE_TYPE, "rebase");
                 }
-                else if (strcmp(CONFIG_MERGE_TYPE, "rebase") == 0)
+                else if (strcmp(merge_type, "rebase") == 0)
                 {
                     save_option(CONFIG_MERGE_TYPE, "squash");
                 }
-                else if (strcmp(CONFIG_MERGE_TYPE, "squash") == 0)
+                else if (strcmp(merge_type, "squash") == 0)
                 {
                     save_option(CONFIG_MERGE_TYPE, "merge");
                 }
@@ -72,7 +72,7 @@ void options()
                 options();
                 return;
             case '2':
-                if (strcmp(CONFIG_TITLE_PROMPT, "yes") == 0)
+                if (strcmp(title_prompt, "yes") == 0)
                     save_option(CONFIG_TITLE_PROMPT, "no");
                 else
                     save_option(CONFIG_TITLE_PROMPT, "yes");
@@ -80,7 +80,7 @@ void options()
                 options();
                 return;
             case '3':
-                if (strcmp(CONFIG_DESC_PROMPT, "yes") == 0)
+                if (strcmp(description_prompt, "yes") == 0)
                     save_option(CONFIG_DESC_PROMPT, "no");
                 else 
                     save_option(CONFIG_DESC_PROMPT, "yes");
@@ -88,7 +88,7 @@ void options()
                 options();
                 return;
             case '4':
-                if (strcmp(CONFIG_DELETE_FEATURE_BRANCH, "yes") == 0)
+                if (strcmp(delete_feature_branch, "yes") == 0)
                     save_option(CONFIG_DELETE_FEATURE_BRANCH, "no");
                 else 
                     save_option(CONFIG_DELETE_FEATURE_BRANCH, "yes");
@@ -96,7 +96,7 @@ void options()
                 options();
                 return;
             case '5':
-                if (strcmp(CONFIG_MERGE_PULL_REQUEST, "yes") == 0)
+                if (strcmp(merge_pull_request, "yes") == 0)
                     save_option(CONFIG_MERGE_PULL_REQUEST, "no");
                 else 
                     save_option(CONFIG_MERGE_PULL_REQUEST, "yes");
