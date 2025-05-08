@@ -18,6 +18,9 @@
 #define CONFIG_MERGE_PULL_REQUEST "merge_pull_request"
 #define CONFIG_MERGE_PULL_REQUEST_DEFAULT "yes"
 
+#define CONFIG_REPO_PATH "config_repo_path"
+#define CONFIG_REPO_PATH_DEFAULT ""
+
 void init_default_options();
 bool save_option(const char* key, const char* value);
 void load_option(const char* key, char* value, size_t value_size);
