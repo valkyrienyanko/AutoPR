@@ -134,21 +134,21 @@ void create_and_merge_pr()
         return;
     }
     
-    // Delete branch
-    printf("\nDeleting branch...\n");
-    
-    if (!delete_branch(branch_name))
-    {
-        print_error("Failed to delete branch");
-        return;
-    }
-
     // Switch back to main
     printf("\nSwitching back to main...\n");
     
     if (!switch_to_branch("main"))
     {
         print_error("Failed to switch back to main");
+        return;
+    }
+    
+    // Delete branch
+    printf("\nDeleting branch...\n");
+    
+    if (!delete_branch(branch_name))
+    {
+        print_error("Failed to delete branch");
         return;
     }
     
