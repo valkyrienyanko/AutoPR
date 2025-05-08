@@ -41,5 +41,4 @@ git reset --hard origin/main
 - [ ] Do not merge pull request
 
 ## Todo
-- Change "Merge Type (squash)" option to be like the "PR Description Prompt (yes)" so it will cycle between the 3 choices (merge, rebase, squash)
 - Optimize and review `options.c` code (it works but it is a mess)
