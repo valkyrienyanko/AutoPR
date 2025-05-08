@@ -1,98 +1,112 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <stdbool.h>
 
 #include "github.h"
-#include "utils.h"
+#include "options.h"
 
-/// @brief Create and merge a GitHub pull request.
-void create_and_merge_pr()
-{
-    printf("Setup new Pull Request\n\n");
-
-    // Inputs
-    printf("PR Title: ");
-    char pr_title[128];
-    read_line(pr_title, sizeof(pr_title));
-    
-    printf("PR Description: ");
-    char pr_description[512];
-    read_line(pr_description, sizeof(pr_description));
-    
-    printf("Branch Name: ");
-    char branch_name[128];
-    read_line(branch_name, sizeof(branch_name));
-    
-    // Checkout branch
-    printf("\nChecking out branch '%s'...\n", branch_name);
-
-    if (!create_new_branch(branch_name))
-    {
-        print_error("Failed to create branch");
-        return;
-    }
-
-    // Publish branch
-    printf("\nPublishing branch...\n");
-
-    if (!push_branch(branch_name))
-    {
-        print_error("Failed to push branch");
-        return;
-    }
-
-    // Create pull request
-    printf("\nCreating pull request...\n");
-
-    if (!create_pr(branch_name, pr_title, pr_description))
-    {
-        print_error("Failed to create pull request");
-        return;
-    }
-
-    // Merge pull request
-    printf("\nMerging pull request...\n");
-
-    if (!merge_pr())
-    {
-        print_error("Failed to merge pull request");
-        return;
-    }
-
-    // Switch back to main
-    printf("\nSwitching back to main...\n");
-    
-    if (!switch_to_branch("main"))
-    {
-        print_error("Failed to switch back to main");
-        return;
-    }
-    
-    // Fetch latest changes from main
-    printf("\nFetching the latest changes from main...\n");
-    
-    if (!fetch())
-    {
-        print_error("Failed to fetch the latest changes from main");
-        return;
-    }
-    
-    // Rebase to main
-    printf("\nRebasing local commits to commits on main\n");
-    
-    if (!rebase())
-    {
-        print_error("Failed to rebase local commits to commits on main");
-        return;
-    }
-
-    printf("\nSuccessfully created and merged pull request '%s'\n", pr_title);
-}
+void home();
+void options();
+void set_merge_type();
 
 int main()
 {
-    create_and_merge_pr();
-    
+    home();
     printf("Program ended normally\n");
     return EXIT_SUCCESS;
+}
+
+void home()
+{
+    printf("---------- GitHub Pull Request Automator ----------\n");
+    printf("(1) Create and Merge Pull Request\n");
+    printf("(2) Configure Options\n");
+    printf("(3) Exit Program\n");
+
+    int choice = 0;
+    
+    while (true)
+    {
+        scanf("%d", &choice);
+        
+        switch (choice)
+        {
+            case 1:
+                create_and_merge_pr();
+                return;
+            case 2:
+                options();
+                return;
+            case 3:
+                return;
+            default:
+                printf("Enter a valid choice.\n");
+        }
+    }
+}
+
+void options()
+{
+    char merge_type[10];
+    load_option(MERGE_TYPE_KEY, merge_type, sizeof(merge_type));
+
+    printf("---------- Options ----------\n");
+    printf("(1) Merge Type (%s)\n", merge_type);
+    printf("(2) Go Back\n");
+    
+    int choice = 0;
+    
+    while (true)
+    {
+        scanf("%d", &choice);
+        
+        switch (choice)
+        {
+            case 1:
+                set_merge_type();
+                return;
+            case 2:
+                home();
+                return;
+            default:
+                printf("Enter a valid choice.\n");
+        }
+    }
+}
+
+void set_merge_type()
+{
+    printf("---------- Set Merge Type ----------\n");
+    printf("(1) Merge - Creates a new merge commit\n");
+    printf("(2) Rebase - Reapplies commits linearly\n");
+    printf("(3) Squash - Combines all commits into one commit\n");
+    printf("(4) Go Back\n");
+    
+    int choice = 0;
+    
+    while (true)
+    {
+        scanf("%d", &choice);
+        
+        switch (choice)
+        {
+            case 1:
+                save_option(MERGE_TYPE_KEY, "merge");
+                options();
+                return;
+            case 2:
+                save_option(MERGE_TYPE_KEY, "rebase");
+                options();
+                return;
+            case 3:
+                save_option(MERGE_TYPE_KEY, "squash");
+                options();
+                return;
+            case 4:
+                options();
+                return;
+            default:
+                printf("Enter a valid choice.\n");
+        }
+    }
 }
