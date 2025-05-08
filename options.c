@@ -27,6 +27,8 @@ void init_default_options()
     dict_set(default_options, CONFIG_MERGE_TYPE, CONFIG_MERGE_TYPE_DEFAULT);
     dict_set(default_options, CONFIG_TITLE_PROMPT, CONFIG_TITLE_PROMPT_DEFAULT);
     dict_set(default_options, CONFIG_DESC_PROMPT, CONFIG_DESC_PROMPT_DEFAULT);
+    dict_set(default_options, CONFIG_DELETE_FEATURE_BRANCH, CONFIG_DELETE_FEATURE_BRANCH_DEFAULT);
+    dict_set(default_options, CONFIG_MERGE_PULL_REQUEST, CONFIG_MERGE_PULL_REQUEST_DEFAULT);
 }
 
 void get_config_path(char* path, size_t path_size)

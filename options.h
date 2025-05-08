@@ -12,6 +12,12 @@
 #define CONFIG_DESC_PROMPT "description_prompt"
 #define CONFIG_DESC_PROMPT_DEFAULT "no"
 
+#define CONFIG_DELETE_FEATURE_BRANCH "delete_feature_branch"
+#define CONFIG_DELETE_FEATURE_BRANCH_DEFAULT "yes"
+
+#define CONFIG_MERGE_PULL_REQUEST "merge_pull_request"
+#define CONFIG_MERGE_PULL_REQUEST_DEFAULT "yes"
+
 void init_default_options();
 bool save_option(const char* key, const char* value);
 void load_option(const char* key, char* value, size_t value_size);

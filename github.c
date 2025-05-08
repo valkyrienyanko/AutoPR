@@ -126,13 +126,19 @@ void latest_commit_message(char* message, int message_size)
 void create_and_merge_pr()
 {
     char pr_title[128], pr_description[512], branch_name[128];
-    char description_prompt[4], title_prompt[4];
+    char description_prompt[4], title_prompt[4], delete_branch_option[4], merge_pr_option[4];
     
     load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
     load_option(CONFIG_TITLE_PROMPT, title_prompt, sizeof(title_prompt));
+    load_option(CONFIG_DELETE_FEATURE_BRANCH, delete_branch_option, sizeof(delete_branch_option));
+    load_option(CONFIG_MERGE_PULL_REQUEST, merge_pr_option, sizeof(merge_pr_option));
+    
+    bool title_prompt_enabled = strcmp(title_prompt, "yes") == 0;
+    bool description_prompt_enabled = strcmp(description_prompt, "yes") == 0;
+    bool merge_enabled = strcmp(merge_pr_option, "yes") == 0;
     
     // Title prompt
-    if (strcmp(title_prompt, "yes") == 0)
+    if (title_prompt_enabled)
     {
         printf("PR Title: ");
         read_line(pr_title, sizeof(pr_title));
@@ -147,7 +153,7 @@ void create_and_merge_pr()
     convert_to_camel_case(branch_name);
     
     // Description prompt
-    if (strcmp(description_prompt, "yes") == 0)
+    if (description_prompt_enabled)
     {
         printf("PR Description: ");
         read_line(pr_description, sizeof(pr_description));
@@ -185,12 +191,15 @@ void create_and_merge_pr()
     }
 
     // Merge pull request
-    printf("\nMerging pull request...\n");
-
-    if (!merge_pr())
+    if (merge_enabled)
     {
-        print_error("Failed to merge pull request");
-        return;
+        printf("\nMerging pull request...\n");
+
+        if (!merge_pr())
+        {
+            print_error("Failed to merge pull request");
+            return;
+        }
     }
     
     // Switch back to main
@@ -203,12 +212,15 @@ void create_and_merge_pr()
     }
     
     // Delete branch
-    printf("\nDeleting branch...\n");
-    
-    if (!delete_branch(branch_name))
+    if (strcmp(delete_branch_option, "yes") == 0)
     {
-        print_error("Failed to delete local or remote branch");
-        return;
+        printf("\nDeleting branch...\n");
+    
+        if (!delete_branch(branch_name))
+        {
+            print_error("Failed to delete local or remote branch");
+            return;
+        }
     }
     
     // Fetch latest changes from main
