@@ -3,8 +3,9 @@
 #include <stdbool.h>
 
 #include "github.h"
-#include "utils.h"
+#include "home.h"
 #include "options.h"
+#include "utils.h"
 
 /// @brief Create a new branch and switch to it.
 /// @return True if the branch was checked out successfully.
@@ -186,4 +187,6 @@ void create_and_merge_pr()
     }
 
     printf("\nSuccessfully created and merged pull request '%s'\n", pr_title);
+    
+    home();
 }
