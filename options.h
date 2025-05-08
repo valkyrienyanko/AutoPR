@@ -3,11 +3,12 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define MERGE_TYPE_KEY "merge_type"
-#define MERGE_TYPE_VALUE_DEFAULT "squash"
+#define CONFIG_MERGE_TYPE "merge_type"
+#define CONFIG_MERGE_TYPE_DEFAULT "squash"
 
-#define DESCRIPTION_PROMPT_KEY "description_prompt"
-#define DESCRIPTION_PROMPT_VALUE_DEFAULT "no"
+#define CONFIG_DESC_PROMPT "description_prompt"
+#define CONFIG_DESC_PROMPT_DEFAULT "no"
 
+void init_default_options();
 bool save_option(const char* key, const char* value);
-bool load_option(const char* key, char* value, size_t value_size);
+void load_option(const char* key, char* value, size_t value_size);
