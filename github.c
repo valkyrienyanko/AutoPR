@@ -76,17 +76,15 @@ bool rebase()
 /// @brief Create and merge a GitHub pull request.
 void create_and_merge_pr()
 {
-    printf("Note that the PR Title will show up as a part of the commit message\n\n");
-
     // Inputs
     printf("PR Title: ");
     char pr_title[128];
     read_line(pr_title, sizeof(pr_title));
-    
+
     printf("PR Description: ");
     char pr_description[512];
     read_line(pr_description, sizeof(pr_description));
-    
+
     printf("Branch Name: ");
     char branch_name[128];
     read_line(branch_name, sizeof(branch_name));

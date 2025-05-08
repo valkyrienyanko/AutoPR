@@ -4,6 +4,7 @@
 
 #include "github.h"
 #include "options.h"
+#include "utils.h"
 
 void home();
 void options();
@@ -27,7 +28,7 @@ void home()
     
     while (true)
     {
-        scanf("%d", &choice);
+        scan_num_consume(&choice);
         
         switch (choice)
         {
@@ -58,7 +59,7 @@ void options()
     
     while (true)
     {
-        scanf("%d", &choice);
+        scan_num_consume(&choice);
         
         switch (choice)
         {
@@ -86,7 +87,7 @@ void set_merge_type()
     
     while (true)
     {
-        scanf("%d", &choice);
+        scan_num_consume(&choice);
         
         switch (choice)
         {

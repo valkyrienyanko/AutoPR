@@ -33,3 +33,13 @@ void read_line(char* buffer, int size)
     if (len > 0 && buffer[len - 1] == '\n')
         buffer[len - 1] = '\0';
 }
+
+/// @brief Sometimes scanf will leave over some left over input which creates a headache later on so this function clears up any remaining input buffer after scanf is called
+void scan_num_consume(int* num)
+{
+    scanf("%d", num);
+        
+    // Clear leftover input buffer
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
