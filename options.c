@@ -137,6 +137,7 @@ bool load_option(const char* key, char* value, size_t value_size)
         
         // Create default config
         save_option(MERGE_TYPE_KEY, MERGE_TYPE_VALUE_DEFAULT);
+        save_option(DESCRIPTION_PROMPT_KEY, DESCRIPTION_PROMPT_VALUE_DEFAULT);
         
         // Read the config again
         file = fopen(config_path, "r");
@@ -168,6 +169,11 @@ bool load_option(const char* key, char* value, size_t value_size)
             found = true;
             break;
         }
+    }
+    
+    if (!found)
+    {
+        // TODO: Create default option
     }
     
     fclose(file);
