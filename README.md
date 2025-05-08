@@ -30,10 +30,10 @@ If you have any questions you can contact me over Discord, my username is valky5
 
 ## How to Use
 1. Compile and build the executable
-2. Place the exe in root of a git project folder
-3. Run the exe
+2. Run the exe from anywhere on your pc
+3. Navigate to options and set your repository path
 4. Manually create some commits (but do not push)
-5. Use the exe to create and merge a pull request for those commits
+5. Use the exe to create and merge a pull request for those commits (make sure you are up-to-date with main branch before you do this)
 
 ## Options
 - [x] Set merge type
@@ -41,3 +41,6 @@ If you have any questions you can contact me over Discord, my username is valky5
 - [x] Disable description prompt
 - [x] Disable delete feature branch
 - [x] Disable merge pull request
+
+## Known Issues
+- If the user puts in a malformed repository path, the program may crash
