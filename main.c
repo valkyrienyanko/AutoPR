@@ -28,7 +28,7 @@ void create_and_merge_pr()
     printf("\n");
     printf("Checking out branch '%s'...\n", branch_name);
 
-    if (!checkout_branch(branch_name))
+    if (!create_new_branch(branch_name))
     {
         print_error("Failed to create branch");
         return;
@@ -65,7 +65,7 @@ void create_and_merge_pr()
     }
     
     // Switch back to main
-    if (!checkout_branch("main"))
+    if (!switch_to_branch("main"))
     {
         print_error("Failed to switch back to main");
         return;
