@@ -3,12 +3,21 @@
 
 #include "github.h"
 
-/// @brief Checkout a branch.
+/// @brief Create a new branch and switch to it.
 /// @return True if the branch was checked out successfully.
-bool checkout_branch(char* branch_name)
+bool create_new_branch(char* branch_name)
 {
     char cmd[128];
     snprintf(cmd, sizeof(cmd), "git checkout -b %s", branch_name);
+    return system(cmd) == 0;
+}
+
+/// @brief Switch to a branch.
+/// @return True if the branch was successfully switched to.
+bool switch_to_branch(char* branch_name)
+{
+    char cmd[128];
+    snprintf(cmd, sizeof(cmd), "git checkout %s", branch_name);
     return system(cmd) == 0;
 }
 
@@ -31,8 +40,15 @@ bool create_pr(char* branch_name, char* pr_title, char* pr_desc)
 }
 
 /// @brief Squashes and merges the active pull request
-/// @return 
+/// @return True if the merge was successful.
 bool merge_pr()
 {
     return system("gh pr merge --squash") == 0;
+}
+
+/// @brief Pull the latest changes from main
+/// @return True if the pull was successful.
+bool pull_changes()
+{
+    return system("git pull origin main") == 0;
 }
