@@ -111,12 +111,15 @@ void latest_commit_message(char* message, int message_size)
     }
     
     // fgets populates message
-    char* line = fgets(message, message_size - 1, fp);
+    char* line = fgets(message, message_size, fp);
     
     if (!line)
     {
-        strncpy(message, COMMIT_FALLBACK_NAME, (size_t)(message_size - 1));
+        strncpy(message, COMMIT_FALLBACK_NAME, (size_t)(message_size));
     }
+    
+    printf("Index = %lld\n", strlen(line) - 1);
+    line[strlen(line) - 1] = '\0';
     
     pclose(fp);
 }
@@ -148,7 +151,7 @@ void create_and_merge_pr()
     }
     else
     {
-        pr_description[0] = '\0';
+        strncpy(pr_description, "No description provided", sizeof(pr_description));
     }
     
     // Checkout branch
