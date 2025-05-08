@@ -9,6 +9,7 @@
 
 #define MAX_PATH_SIZE 256
 #define MAX_LINE_SIZE 256
+#define MAX_LINES 128
 #define CONFIG_FOLDER_NAME "GitHub Pull Request Automator"
 #define CONFIG_FILE_NAME "options.txt"
 
@@ -81,7 +82,7 @@ bool save_option(const char* key, const char* value)
     }
 
     // Read all lines into memory
-    char lines[1024][MAX_LINE_SIZE]; // Adjust size as needed
+    char lines[MAX_LINES][MAX_LINE_SIZE];
     int line_count = 0;
     bool found = false;
 
@@ -102,9 +103,9 @@ bool save_option(const char* key, const char* value)
         
         line_count++;
         
-        if (line_count >= 1024)
+        if (line_count >= MAX_LINES)
         {
-            // Too many lines; handle as needed
+            print_error("Could not read all of config as exceeds MAX_LINES");
             break;
         }
     }
