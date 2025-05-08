@@ -4,6 +4,7 @@
 A tool that automates GitHub pull requests. If you have any questions you can contact me over Discord, my username is valky5.
 
 ## Requirements
+- Windows 64 Bit (may not work on other OS's)
 - https://git-scm.com/
 - https://cli.github.com/
 
