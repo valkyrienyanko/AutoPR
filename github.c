@@ -39,16 +39,23 @@ bool create_pr(char* branch_name, char* pr_title, char* pr_desc)
     return system(cmd) == 0;
 }
 
-/// @brief Squashes and merges the active pull request
+/// @brief Squashes and merges the active pull request.
 /// @return True if the merge was successful.
 bool merge_pr()
 {
     return system("gh pr merge --squash") == 0;
 }
 
-/// @brief Pull the latest changes from main
-/// @return True if the pull was successful.
-bool pull_changes()
+/// @brief Fetches the latest changes from main.
+/// @return True if the fetch command was successful.
+bool fetch()
 {
-    return system("git pull origin main") == 0;
+    return system("git fetch origin") == 0;
+}
+
+/// @brief Rebases the local commits to match the commits on main.
+/// @return True if the rebase was successful.
+bool rebase()
+{
+    return system("git rebase origin/main") == 0;
 }

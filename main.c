@@ -68,14 +68,23 @@ void create_and_merge_pr()
         return;
     }
     
-    // Pull latest changes from main
-    // printf("\nPulling latest changes from main...\n");
+    // Fetch latest changes from main
+    printf("\nFetching the latest changes from main...\n");
     
-    // if (!pull_changes())
-    // {
-    //     print_error("Failed to pull latest changes from main");
-    //     return;
-    // }
+    if (!fetch())
+    {
+        print_error("Failed to fetch the latest changes from main");
+        return;
+    }
+    
+    // Rebase to main
+    printf("\nRebasing local commits to commits on main\n");
+    
+    if (!rebase())
+    {
+        print_error("Failed to rebase local commits to commits on main");
+        return;
+    }
 
     printf("\nSuccessfully created and merged pull request '%s'\n", pr_title);
 }
