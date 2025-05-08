@@ -67,7 +67,7 @@ bool push_branch(char* branch_name)
 bool create_pr(char* branch_name, char* pr_title, char* pr_desc)
 {
     char cmd[1024];
-    snprintf(cmd, sizeof(cmd), "gh pr create --base main --head %s --title \"%s\" --body \"%s\" --no-edit", branch_name, pr_title, pr_desc);
+    snprintf(cmd, sizeof(cmd), "gh pr create --base main --head %s --title \"%s\" --body \"%s\"", branch_name, pr_title, pr_desc);
     return system(cmd) == 0;
 }
 
@@ -148,7 +148,7 @@ void create_and_merge_pr()
     }
     else
     {
-        strncpy(pr_description, "No description set for this PR.", sizeof(pr_description));
+        pr_description[0] = '\0';
     }
     
     // Checkout branch
