@@ -243,5 +243,8 @@ void create_and_merge_pr()
 
     printf("\nSuccessfully created and merged pull request '%s'\n", pr_title);
     
+    printf("\nPress 'Enter' to return to home page\n");
+    clear_buffer();
+    getchar();
     home();
 }

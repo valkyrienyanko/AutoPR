@@ -43,4 +43,5 @@ If you have any questions you can contact me over Discord, my username is valky5
 - [x] Disable merge pull request
 
 ## Known Issues
+- If PR title (or commit message if this is being used as PR title) contains any special characters like '&', the branch will fail to be created and the program will end
 - If the user puts in a malformed repository path, the program may crash
