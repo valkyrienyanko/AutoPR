@@ -8,7 +8,6 @@
 #include "options.h"
 #include "utils.h"
 
-#define BRANCH_NAME "__new_feature" // surely no one will call their branches this
 #define COMMIT_FALLBACK_NAME "New Feature"
 
 /// @brief Create a new branch and switch to it.
@@ -126,13 +125,13 @@ void latest_commit_message(char* message, int message_size)
 /// @brief Create and merge a GitHub pull request.
 void create_and_merge_pr()
 {
-    char pr_title[128], pr_description[512];
+    char pr_title[128], pr_description[512], branch_name[128];
     char description_prompt[4], title_prompt[4];
     
     load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
     load_option(CONFIG_TITLE_PROMPT, title_prompt, sizeof(title_prompt));
     
-    // Inputs
+    // Title prompt
     if (strcmp(title_prompt, "yes") == 0)
     {
         printf("PR Title: ");
@@ -143,6 +142,11 @@ void create_and_merge_pr()
         latest_commit_message(pr_title, sizeof(pr_title));
     }
     
+    // Branch name based on PR title or latest commit message
+    strncpy(branch_name, pr_title, sizeof(branch_name));
+    convert_to_camel_case(branch_name);
+    
+    // Description prompt
     if (strcmp(description_prompt, "yes") == 0)
     {
         printf("PR Description: ");
@@ -154,9 +158,9 @@ void create_and_merge_pr()
     }
     
     // Checkout branch
-    printf("\nChecking out branch '%s'...\n", BRANCH_NAME);
+    printf("\nChecking out branch '%s'...\n", branch_name);
 
-    if (!create_new_branch(BRANCH_NAME))
+    if (!create_new_branch(branch_name))
     {
         print_error("Failed to create branch");
         return;
@@ -165,7 +169,7 @@ void create_and_merge_pr()
     // Publish branch
     printf("\nPublishing branch...\n");
 
-    if (!push_branch(BRANCH_NAME))
+    if (!push_branch(branch_name))
     {
         print_error("Failed to push branch");
         return;
@@ -174,7 +178,7 @@ void create_and_merge_pr()
     // Create pull request
     printf("\nCreating pull request...\n");
 
-    if (!create_pr(BRANCH_NAME, pr_title, pr_description))
+    if (!create_pr(branch_name, pr_title, pr_description))
     {
         print_error("Failed to create pull request");
         return;
@@ -201,7 +205,7 @@ void create_and_merge_pr()
     // Delete branch
     printf("\nDeleting branch...\n");
     
-    if (!delete_branch(BRANCH_NAME))
+    if (!delete_branch(branch_name))
     {
         print_error("Failed to delete local or remote branch");
         return;
