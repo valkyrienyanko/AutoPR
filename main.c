@@ -69,13 +69,13 @@ void create_and_merge_pr()
     }
     
     // Pull latest changes from main
-    printf("\nPulling latest changes from main...\n");
+    // printf("\nPulling latest changes from main...\n");
     
-    if (!pull_changes())
-    {
-        print_error("Failed to pull latest changes from main");
-        return;
-    }
+    // if (!pull_changes())
+    // {
+    //     print_error("Failed to pull latest changes from main");
+    //     return;
+    // }
 
     printf("\nSuccessfully created and merged pull request '%s'\n", pr_title);
 }
