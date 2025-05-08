@@ -15,6 +15,15 @@ bool create_new_branch(char* branch_name)
     return system(cmd) == 0;
 }
 
+/// @brief Delete a branch locally
+/// @return True if the branch was deleted successfully
+bool delete_branch(char* branch_name)
+{
+    char cmd[128];
+    snprintf(cmd, sizeof(cmd), "git branch -d %s", branch_name);
+    return system(cmd) == 0;
+}
+
 /// @brief Switch to a branch.
 /// @return True if the branch was successfully switched to.
 bool switch_to_branch(char* branch_name)
@@ -122,6 +131,15 @@ void create_and_merge_pr()
     if (!merge_pr())
     {
         print_error("Failed to merge pull request");
+        return;
+    }
+    
+    // Delete branch
+    printf("\nDeleting branch...\n");
+    
+    if (!delete_branch(branch_name))
+    {
+        print_error("Failed to delete branch");
         return;
     }
 
