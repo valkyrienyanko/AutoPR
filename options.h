@@ -6,6 +6,9 @@
 #define CONFIG_MERGE_TYPE "merge_type"
 #define CONFIG_MERGE_TYPE_DEFAULT "squash"
 
+#define CONFIG_TITLE_PROMPT "title_prompt"
+#define CONFIG_TITLE_PROMPT_DEFAULT "yes"
+
 #define CONFIG_DESC_PROMPT "description_prompt"
 #define CONFIG_DESC_PROMPT_DEFAULT "no"
 

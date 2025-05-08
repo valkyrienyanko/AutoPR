@@ -9,6 +9,7 @@
 #include "utils.h"
 
 #define BRANCH_NAME "__new_feature" // surely no one will call their branches this
+#define COMMIT_FALLBACK_NAME "New Feature"
 
 /// @brief Create a new branch and switch to it.
 /// @return True if the branch was checked out successfully.
@@ -66,7 +67,7 @@ bool push_branch(char* branch_name)
 bool create_pr(char* branch_name, char* pr_title, char* pr_desc)
 {
     char cmd[1024];
-    snprintf(cmd, sizeof(cmd), "gh pr create --base main --head %s --title \"%s\" --body \"%s\"", branch_name, pr_title, pr_desc);
+    snprintf(cmd, sizeof(cmd), "gh pr create --base main --head %s --title \"%s\" --body \"%s\" --no-edit", branch_name, pr_title, pr_desc);
     return system(cmd) == 0;
 }
 
@@ -96,17 +97,49 @@ bool hard_reset()
     return system("git reset --hard origin/main") == 0;
 }
 
+/// @brief Gets the latest commit message. (not null terminated)
+void latest_commit_message(char* message, int message_size)
+{
+    const char* cmd = "git log -1 --pretty=%B";
+    
+    FILE* fp = popen(cmd, "r");
+    
+    if (!fp)
+    {
+        perror("popen failed");
+        return;
+    }
+    
+    // fgets populates message
+    char* line = fgets(message, message_size - 1, fp);
+    
+    if (!line)
+    {
+        strncpy(message, COMMIT_FALLBACK_NAME, (size_t)(message_size - 1));
+    }
+    
+    pclose(fp);
+}
+
 /// @brief Create and merge a GitHub pull request.
 void create_and_merge_pr()
 {
     char pr_title[128], pr_description[512];
+    char description_prompt[4], title_prompt[4];
+    
+    load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
+    load_option(CONFIG_TITLE_PROMPT, title_prompt, sizeof(title_prompt));
     
     // Inputs
-    printf("PR Title: ");
-    read_line(pr_title, sizeof(pr_title));
-    
-    char description_prompt[4];
-    load_option(CONFIG_DESC_PROMPT, description_prompt, sizeof(description_prompt));
+    if (strcmp(title_prompt, "yes") == 0)
+    {
+        printf("PR Title: ");
+        read_line(pr_title, sizeof(pr_title));
+    }
+    else
+    {
+        latest_commit_message(pr_title, sizeof(pr_title));
+    }
     
     if (strcmp(description_prompt, "yes") == 0)
     {
@@ -115,7 +148,7 @@ void create_and_merge_pr()
     }
     else
     {
-        pr_description[0] = '\0';
+        strncpy(pr_description, "No description set for this PR.", sizeof(pr_description));
     }
     
     // Checkout branch
