@@ -5,8 +5,8 @@
 #include "github.h"
 #include "utils.h"
 
-/// @brief Automate a GitHub pull request.
-void automate_pr()
+/// @brief Create and merge a GitHub pull request.
+void create_and_merge_pr()
 {
     // Inputs
     printf("PR Title: ");
@@ -38,11 +38,16 @@ void automate_pr()
         print_error("Failed to create pull request");
         return;
     }
+    
+    if (!merge_pr())
+    {
+        print_error("Failed to merge pull request");
+    }
 }
 
 int main()
 {
-    automate_pr();
+    create_and_merge_pr();
     
     printf("Program ended normally\n");
     return EXIT_SUCCESS;
