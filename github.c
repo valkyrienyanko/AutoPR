@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "github.h"
 #include "home.h"
@@ -103,14 +104,24 @@ bool hard_reset()
 /// @brief Create and merge a GitHub pull request.
 void create_and_merge_pr()
 {
+    char pr_title[128], pr_description[512];
+    
     // Inputs
     printf("PR Title: ");
-    char pr_title[128];
     read_line(pr_title, sizeof(pr_title));
-
-    printf("PR Description: ");
-    char pr_description[512];
-    read_line(pr_description, sizeof(pr_description));
+    
+    char description_prompt[4];
+    load_option(DESCRIPTION_PROMPT_KEY, description_prompt, sizeof(description_prompt));
+    
+    if (strcmp(description_prompt, "yes") == 0)
+    {
+        printf("PR Description: ");
+        read_line(pr_description, sizeof(pr_description));
+    }
+    else
+    {
+        pr_description[0] = '\0';
+    }
     
     // Checkout branch
     printf("\nChecking out branch '%s'...\n", BRANCH_NAME);

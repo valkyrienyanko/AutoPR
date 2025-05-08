@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <string.h>
 
 #include "github.h"
 #include "home.h"
@@ -49,10 +50,14 @@ void options()
 {
     char merge_type[10];
     load_option(MERGE_TYPE_KEY, merge_type, sizeof(merge_type));
+    
+    char description_prompt[4];
+    load_option(DESCRIPTION_PROMPT_KEY, description_prompt, sizeof(description_prompt));
 
     printf("---------- Options ----------\n"); 
     printf("(1) Merge Type (%s)\n", merge_type);
-    printf("(2) Go Back\n");
+    printf("(2) PR Description Prompt (%s)\n", description_prompt);
+    printf("(3) Go Back\n");
     
     int choice = 0;
     
@@ -66,6 +71,14 @@ void options()
                 set_merge_type();
                 return;
             case 2:
+                if (strcmp(description_prompt, "yes") == 0)
+                    save_option(DESCRIPTION_PROMPT_KEY, "no");
+                else 
+                    save_option(DESCRIPTION_PROMPT_KEY, "yes");
+                
+                options();
+                return;
+            case 3:
                 home();
                 return;
             default:
