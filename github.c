@@ -245,6 +245,5 @@ void create_and_merge_pr()
     
     printf("\nPress 'Enter' to return to home page\n");
     clear_buffer();
-    getchar();
     home();
 }
