@@ -10,6 +10,8 @@
 
 void options()
 {
+    system("cls");
+
     char merge_type[10];
     char merge_type_display[128];
     char merge_type_desc[64];
@@ -126,6 +128,7 @@ void options()
 
 void home()
 {
+    system("cls");
     printf("---------- GitHub Pull Request Automator ----------\n");
     printf("(1) Create and Merge Pull Request\n");
     printf("(2) Configure Options\n");
@@ -144,12 +147,14 @@ void home()
         {
             case '1':
                 chdir(repo_path);
+                system("cls");
                 create_and_merge_pr();
                 return;
             case '2':
                 options();
                 return;
             case 'x':
+                system("cls");
                 return;
             default:
                 printf("Enter a valid choice.\n");
