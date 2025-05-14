@@ -1,8 +1,6 @@
 # AutoPR
 
 ## What is this?
-![Preview](https://github.com/user-attachments/assets/f9912f64-e8a8-4972-85cc-e35ceef0d14c)
-
 A tool that automates GitHub pull requests. For GitHub repo owners who are tired of manually setting up pull requests.
 
 With the default config values, this is what this tool is automating for you.
@@ -21,7 +19,7 @@ git fetch origin
 git reset --hard origin/main
 ```
 
-If you have any questions you can contact me over Discord, my username is valky5.
+I realize after making this that this handles a very specific scenario but you know what hey I had fun doing it because I got more experience learning C.
 
 ## Requirements
 - Windows 64 Bit (currently not supported for Mac or Linux)
